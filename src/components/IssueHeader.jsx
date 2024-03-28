@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { GoIssueClosed, GoIssueOpened } from "react-icons/go";
 import { MdArrowDropDown } from "react-icons/md";
 import FilterModal from "./FilterModal";
+import SortModal from "./SortModal";
 
 const menuList = [
   "author",
@@ -15,6 +16,7 @@ const menuList = [
 const IssueHeader = ({ authors, labels, setIssues, allIssues }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [filterBy, setFilterBy] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("");
   console.log(isOpen);
   return (
     <>
@@ -46,13 +48,25 @@ const IssueHeader = ({ authors, labels, setIssues, allIssues }) => {
           </div>
         </div>
       </div>
-      {isOpen && (
+      {isOpen && (filterBy === "author" || filterBy === "label") && (
         <FilterModal
           filterList={filterBy === "author" ? authors : labels}
           setIsOpen={setIsOpen}
           filterBy={filterBy}
           setIssues={setIssues}
           allIssues={allIssues}
+          selectedFilter={selectedFilter}
+          setSelectedFilter={setSelectedFilter}
+        />
+      )}
+      {isOpen && filterBy === "sort" && (
+        <SortModal
+          setIsOpen={setIsOpen}
+          filterBy={filterBy}
+          setIssues={setIssues}
+          allIssues={allIssues}
+          selectedFilter={selectedFilter}
+          setSelectedFilter={setSelectedFilter}
         />
       )}
     </>

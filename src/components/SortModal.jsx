@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 import { MdCheck } from "react-icons/md";
 
-const FilterModal = ({
-  filterList,
+const sortList = [
+  "newest",
+  "oldest",
+  "most commented",
+  "least commented",
+  "recently updated",
+  "least recently updated",
+];
+
+const SortModal = ({
   setIsOpen,
   filterBy,
   setIssues,
@@ -10,41 +18,64 @@ const FilterModal = ({
   setSelectedFilter,
   selectedFilter,
 }) => {
-  const [list, setlist] = useState(filterList);
+  //   const [list, setlist] = useState(filterList);
 
-  console.log(filterList);
-  const handleChange = (e) => {
-    const filteredList = filterList.filter((item) =>
-      item.name.toLowerCase().includes(e.target.value.toLowerCase())
-    );
-    setlist(filteredList);
-  };
-  const filterIssues = (name) => {
+  const sortIssues = (name) => {
     if (selectedFilter === name) {
       setSelectedFilter("");
       setIssues(allIssues);
     } else {
       setSelectedFilter(name);
-      if (filterBy === "author") {
-        setIssues(allIssues.filter((issue) => issue.user.login === name));
-      } else {
-        setIssues(
-          allIssues.filter((issue) =>
-            issue.labels.some((label) => label.name === name)
-          )
-        );
+      const issues = [...allIssues];
+      switch (name) {
+        case "newest":
+          setIssues(
+            issues.sort(
+              (a, b) => new Date(b.created_at) - new Date(a.created_at)
+            )
+          );
+          break;
+        case "oldest":
+          setIssues(
+            issues.sort(
+              (a, b) => new Date(a.created_at) - new Date(b.created_at)
+            )
+          );
+          break;
+        case "most commented":
+          setIssues(issues.sort((a, b) => b.comments - a.comments));
+          break;
+        case "least commented":
+          setIssues(issues.sort((a, b) => a.comments - b.comments));
+          break;
+        case "recently updated":
+          setIssues(
+            issues.sort(
+              (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+            )
+          );
+          break;
+        case "least recently updated":
+          setIssues(
+            issues.sort(
+              (a, b) => new Date(a.updated_at) - new Date(b.updated_at)
+            )
+          );
+          break;
+
+        default:
+          break;
       }
     }
   };
+  //   console.log(selectedFilter);
   return (
     <div className="fixed inset-0 w-full h-full">
       <div className="fixed inset-0 w-full h-full bg-black opacity-40" />
       <div className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-full max-w-lg mx-auto px-4">
         <div className="bg-white rounded-md shadow-lg px-4 py-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-medium text-gray-800">
-              Filter by {filterBy}
-            </h2>
+            <h2 className="text-lg font-medium text-gray-800">Sort by</h2>
             <button
               className="p-2 text-gray-400 rounded-md hover:bg-gray-100"
               onClick={() => setIsOpen(false)}
@@ -64,35 +95,18 @@ const FilterModal = ({
             </button>
           </div>
 
-          <input
-            className="w-full pl-12 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-            placeholder="Filter"
-            onChange={handleChange}
-          />
-          <ul className="h-96 overflow-auto">
-            {list.map((item, i) => (
+          <ul className="h-48 overflow-auto">
+            {sortList.map((item, i) => (
               <li
                 key={i}
                 className="list-none cursor-pointer border-t hover:bg-gray-100"
-                onClick={() => filterIssues(item.name)}
+                onClick={() => sortIssues(item)}
               >
                 <span className="inline-block w-4 mr-2 align-middle">
-                  {selectedFilter === item.name && <MdCheck />}
+                  {selectedFilter === item && <MdCheck />}
                 </span>
-                {filterBy === "author" && (
-                  <img
-                    src={item.avatar}
-                    alt={item.name}
-                    className="w-5 h-5 rounded-full inline mr-2"
-                  />
-                )}
-                {filterBy === "label" && (
-                  <span
-                    style={{ backgroundColor: `#${item.color}` }}
-                    className="inline-block w-4 h-4 rounded-full mr-2 border align-middle"
-                  ></span>
-                )}
-                <span>{item.name} </span>
+
+                <span className="capitalize">{item} </span>
               </li>
             ))}
           </ul>
@@ -102,4 +116,4 @@ const FilterModal = ({
   );
 };
 
-export default FilterModal;
+export default SortModal;
