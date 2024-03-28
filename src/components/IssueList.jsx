@@ -8,7 +8,12 @@ const IssueList = ({ issues: allIssues, authors, labels }) => {
   console.log(issues);
   return (
     <div className="w-3/4 m-auto">
-      <IssueHeader authors={authors} labels={labels} setIssues={setIssues} />
+      <IssueHeader
+        authors={authors}
+        labels={labels}
+        setIssues={setIssues}
+        allIssues={allIssues}
+      />
       {issues.map((issue) => (
         <IssueItem
           key={issue.id}

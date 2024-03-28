@@ -12,7 +12,7 @@ const menuList = [
   "sort",
 ];
 
-const IssueHeader = ({ authors, labels, setIssues }) => {
+const IssueHeader = ({ authors, labels, setIssues, allIssues }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [filterBy, setFilterBy] = useState("");
   console.log(isOpen);
@@ -22,9 +22,9 @@ const IssueHeader = ({ authors, labels, setIssues }) => {
         <div className="justify-between sm:flex">
           <div className="flex items-center gap-2">
             <GoIssueOpened className="text-gray-500" />
-            <span>983 Open</span>
+            <span>1181 Open</span>
             <GoIssueClosed className="text-purple-600" />
-            <span>983 Closed</span>
+            <span>11580 Closed</span>
           </div>
           <div className="ml-2">
             <ul className="flex gap-2">
@@ -52,6 +52,7 @@ const IssueHeader = ({ authors, labels, setIssues }) => {
           setIsOpen={setIsOpen}
           filterBy={filterBy}
           setIssues={setIssues}
+          allIssues={allIssues}
         />
       )}
     </>

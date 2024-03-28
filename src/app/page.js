@@ -5,7 +5,7 @@ export default async function Home() {
   const issues = await getIssues();
   const authors = issues.map((issue) => ({
     name: issue.user.login,
-    avatar: issue.avatar_url,
+    avatar: issue.user.avatar_url,
   }));
 
   const [labels1, labels2, labels3] = await Promise.all([

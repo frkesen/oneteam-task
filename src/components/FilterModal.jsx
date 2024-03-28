@@ -1,25 +1,37 @@
 import React, { useState } from "react";
+import { MdCheck } from "react-icons/md";
 
-const FilterModal = ({ filterList, setIsOpen, filterBy, setIssues }) => {
+const FilterModal = ({
+  filterList,
+  setIsOpen,
+  filterBy,
+  setIssues,
+  allIssues,
+}) => {
   const [list, setlist] = useState(filterList);
+  const [selectedFilter, setSelectedFilter] = useState("");
   console.log(filterList);
   const handleChange = (e) => {
     const filteredList = filterList.filter((item) =>
-      item.name.includes(e.target.value)
+      item.name.toLowerCase().includes(e.target.value.toLowerCase())
     );
     setlist(filteredList);
   };
   const filterIssues = (name) => {
-    if (filterBy === "author") {
-      setIssues((issues) =>
-        issues.filter((issue) => issue.user.login === name)
-      );
+    if (selectedFilter === name) {
+      setSelectedFilter("");
+      setIssues(allIssues);
     } else {
-      setIssues((issues) =>
-        issues.filter((issue) =>
-          issue.labels.some((label) => label.name === name)
-        )
-      );
+      setSelectedFilter(name);
+      if (filterBy === "author") {
+        setIssues(allIssues.filter((issue) => issue.user.login === name));
+      } else {
+        setIssues(
+          allIssues.filter((issue) =>
+            issue.labels.some((label) => label.name === name)
+          )
+        );
+      }
     }
   };
   return (
@@ -62,11 +74,22 @@ const FilterModal = ({ filterList, setIsOpen, filterBy, setIssues }) => {
                 className="list-none cursor-pointer"
                 onClick={() => filterIssues(item.name)}
               >
-                <span
-                  style={{ backgroundColor: `#${item.color}` }}
-                  className="inline-block w-4 h-4 rounded-full mr-2 border align-middle"
-                ></span>
+                {filterBy === "author" ? (
+                  <img
+                    src={item.avatar}
+                    alt={item.name}
+                    className="w-5 h-5 rounded-full inline mr-2"
+                  />
+                ) : (
+                  <span
+                    style={{ backgroundColor: `#${item.color}` }}
+                    className="inline-block w-4 h-4 rounded-full mr-2 border align-middle"
+                  ></span>
+                )}
                 <span>{item.name} </span>
+                {selectedFilter === item.name && (
+                  <MdCheck className="inline-flex ml-3" />
+                )}
               </li>
             ))}
           </ul>
