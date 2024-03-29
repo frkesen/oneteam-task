@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const IssueList = ({ issues: allIssues, authors, labels }) => {
   const [issues, setIssues] = useState(allIssues);
-  console.log(issues);
+  // console.log(issues);
   return (
     <div className="w-3/4 m-auto">
       <IssueHeader

@@ -17,7 +17,7 @@ const IssueHeader = ({ authors, labels, setIssues, allIssues }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [filterBy, setFilterBy] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
-  console.log(isOpen);
+  // console.log(isOpen);
   return (
     <>
       <div className="p-5 border-gray-100 bg-gray-50 rounded-t-md">

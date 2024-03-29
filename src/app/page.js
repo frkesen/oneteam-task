@@ -16,7 +16,7 @@ export default async function Home() {
   const labels = [...labels1, ...labels2, ...labels3];
   console.log(labels);
   return (
-    <main className="container m-4">
+    <main className="m-4">
       <IssueList issues={issues} authors={authors} labels={labels} />
     </main>
   );

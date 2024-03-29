@@ -12,7 +12,7 @@ const FilterModal = ({
 }) => {
   const [list, setlist] = useState(filterList);
 
-  console.log(filterList);
+  // console.log(filterList);
   const handleChange = (e) => {
     const filteredList = filterList.filter((item) =>
       item.name.toLowerCase().includes(e.target.value.toLowerCase())

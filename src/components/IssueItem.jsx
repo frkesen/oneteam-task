@@ -26,12 +26,12 @@ const IssueItem = (props) => {
             )}
           </div>
           <div className="flex-1 ml-2">
-            <div>
+            <div className="flex flex-wrap">
               <span className="font-medium">{title}</span>
               {labels.map((label) => (
                 <span
                   style={{ backgroundColor: `#${label.color}` }}
-                  className="px-2 rounded-lg ml-1"
+                  className="px-2 rounded-lg ml-1 "
                   key={label.id}
                 >
                   {label.name}
@@ -42,7 +42,16 @@ const IssueItem = (props) => {
               #{number} opened {moment(created).fromNow()} by {reporter}
             </span>
           </div>
-          <div className="mt-5 space-y-4 text-sm sm:mt-0 sm:space-y-2">
+          <div className="w-7 ml-1">
+            {asignee ? (
+              <img
+                src={asignee.avatar_url}
+                alt="avatar"
+                className="w-5 h-5 rounded-full inline align-top"
+              />
+            ) : null}
+          </div>
+          <div className="w-7 ml-1">
             {comments ? (
               <div className="flex items-center">
                 <GoComment />

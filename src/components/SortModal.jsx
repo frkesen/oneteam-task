@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { MdCheck } from "react-icons/md";
 
 const sortList = [
@@ -12,14 +12,11 @@ const sortList = [
 
 const SortModal = ({
   setIsOpen,
-  filterBy,
   setIssues,
   allIssues,
   setSelectedFilter,
   selectedFilter,
 }) => {
-  //   const [list, setlist] = useState(filterList);
-
   const sortIssues = (name) => {
     if (selectedFilter === name) {
       setSelectedFilter("");
